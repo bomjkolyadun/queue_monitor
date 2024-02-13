@@ -10,6 +10,7 @@ from twocaptcha import TwoCaptcha
 import api
 import settings
 from parser import parse_date
+import pytz
 from tgbot import bot, clear_keyboard
 
 url = settings.QUEUE_SITE
@@ -109,8 +110,12 @@ def check_queue():
 if __name__ == '__main__':
     CHECK_EVERY_N_MIN = 1
     CHECK_FIRST_N_MIN = 16
+    # Set the timezone to Poland's timezone
+    poland_timezone = pytz.timezone('Europe/Warsaw')
     while True:
-        now = datetime.now()
+        now = datetime.now(poland_timezone)
+        print(now.strftime("%H:%M:%S"))
+
         if now.minute < CHECK_FIRST_N_MIN and 3 < now.hour < 13:
             try:
                 print('start checking queue')
